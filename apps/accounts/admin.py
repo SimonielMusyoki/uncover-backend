@@ -1,11 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 
 from .forms import UserChangeForm, UserCreationForm
 from .models import User,Profile
 
-@admin.register(User)
+# Unregister Group
+admin.site.unregister(Group)
 class UserAdmin(BaseUserAdmin):
     ordering = ["email"]
     add_form = UserCreationForm
@@ -25,7 +27,7 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ["email", "username", "first_name", "last_name", "is_staff"]
     fieldsets = (
         (
-            _("Login Creditials"),
+            _("Login Credentials"),
             {
                 "fields": (
                     "email",
@@ -67,22 +69,30 @@ class UserAdmin(BaseUserAdmin):
     )
 
     add_fieldsets = (
-        None,
-        {
-            "class": ("wide",),
-            "fields": (
-                "email",
-                "password1",
-                "password2",
-                "is_staff",
-                "is_active",
-            ),
-        },
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'password1', 'password2', "is_staff", "is_active",),
+        }
+         ),
     )
+
+    # add_fieldsets = (
+    #     None,
+    #     {
+    #         # "class": ("wide",),
+    #         # "fields": (
+    #         #     "email",
+    #         #     "password1",
+    #         #     "password2",
+    #         #     "is_staff",
+    #         #     "is_active",
+    #         # ),
+    #     },
+    # )
 
     search_fields = ["email", "username", "first_name", "last_name"]
 
-
+admin.site.register(User, UserAdmin)
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ["pkid", "id", "user", "gender", "phone_number", "country", "city"]

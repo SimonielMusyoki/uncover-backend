@@ -32,10 +32,12 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',
     'djoser',
+    'ckeditor',
 ]
 
 PROJECT_APPS = [
-    "apps.accounts"
+    "apps.accounts",
+    "apps.store",
 ]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
 
