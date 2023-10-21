@@ -15,11 +15,16 @@ def get_filename_ext(filepath):
     return name, ext
 
 
-def upload_image_path(instance, filename):
-    new_filename = random.randint(1, 3910209312)
+def upload_product_main_image_path(instance, filename):
     _, ext = get_filename_ext(filename)
-    final_filename = "{new_filename}{ext}".format(new_filename=new_filename, ext=ext)
-    return f"products/{instance.id}/{final_filename}"
+    final_filename = f"{instance.slug}{ext}"
+    return f"products/{instance.slug}/{final_filename}"
+
+
+def upload_product_image_path(instance, filename):
+    _, ext = get_filename_ext(filename)
+    final_filename = f"{instance.product.slug}-{instance.id}{ext}"
+    return f"products/{instance.product.slug}/{final_filename}"
 
 
 class Category(models.Model):
@@ -45,7 +50,7 @@ class Product(models.Model):
     slug = models.SlugField(unique=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
     short_description = RichTextField(verbose_name=_("Short Description"))
-    image = models.ImageField(upload_to=upload_image_path)
+    image = models.ImageField(upload_to=upload_product_main_image_path)
     original_price = models.DecimalField(verbose_name=_("Original Price"), decimal_places=2, max_digits=10)
     sale_price = models.DecimalField(decimal_places=2, max_digits=10, blank=True,
                                      null=True)
@@ -54,7 +59,7 @@ class Product(models.Model):
     max_order_count = models.IntegerField(verbose_name=_("Max cart quantity"), blank=True, null=True)
     long_description = RichTextField(verbose_name=_("Long Description"))
 
-    rating = models.DecimalField(verbose_name=_("Product Rating"), decimal_places=1, max_digits=3, default=0.0)
+    average_rating = models.DecimalField(verbose_name=_("Product Rating"), decimal_places=1, max_digits=3, default=0.0)
     rating_count = models.IntegerField(verbose_name=_("Number of rating"), default=0)
     orders_count = models.IntegerField(verbose_name=_("Number ordered"), default=0)
 
@@ -62,9 +67,9 @@ class Product(models.Model):
         return self.name
 
 
-class ProductImages(models.Model):
+class ProductImage(models.Model):
     product = models.ForeignKey(Product, verbose_name=_("Product"), on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=upload_image_path)
+    image = models.ImageField(upload_to=upload_product_image_path)
 
 
 class AdditionalInformation(models.Model):
@@ -79,7 +84,7 @@ class AdditionalInformation(models.Model):
         verbose_name_plural = "Additional Information"
 
 
-class Ratings(models.Model):
+class Rating(models.Model):
     product = models.ForeignKey(Product, verbose_name=_("Product"), on_delete=models.CASCADE)
     user = models.ForeignKey(AUTH_USER_MODEL, verbose_name=_("User"), on_delete=models.CASCADE)
     rating_value = models.IntegerField(verbose_name=_("Rating Value"),

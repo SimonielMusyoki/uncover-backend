@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=255, verbose_name='Product Name')),
                 ('slug', models.SlugField(unique=True)),
                 ('short_description', ckeditor.fields.RichTextField(verbose_name='Short Description')),
-                ('image', models.ImageField(upload_to=apps.store.models.upload_image_path)),
+                ('image', models.ImageField(upload_to=apps.store.models.upload_product_main_image_path)),
                 ('original_price', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Original Price')),
                 ('sale_price', models.DecimalField(blank=True, decimal_places=2, max_digits=10, null=True)),
                 ('active', models.BooleanField(default=True, verbose_name='Show product on website')),
@@ -72,7 +72,7 @@ class Migration(migrations.Migration):
             name='ProductImages',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(upload_to=apps.store.models.upload_image_path)),
+                ('image', models.ImageField(upload_to=apps.store.models.upload_product_image_path)),
                 ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='store.product', verbose_name='Product')),
             ],
         ),
