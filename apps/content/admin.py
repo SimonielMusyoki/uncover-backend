@@ -20,5 +20,6 @@ class FlyoutMenuItemsAdmin(admin.ModelAdmin):
 
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
-    list_display = ['name', 'landing_page']
+    list_display = ['name', 'slug']
     list_per_page = 20
+    prepopulated_fields = {"slug": ("name",)}
