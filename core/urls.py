@@ -13,3 +13,7 @@ urlpatterns = [
 
     path("__debug__/", include("debug_toolbar.urls")),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+admin.site.site_header  =  "Uncover Skincare Admin"
+admin.site.site_title  =  "Uncover Skincare Admin site"
+admin.site.index_title  =  "Uncover Skincare Admin"

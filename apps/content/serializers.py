@@ -7,7 +7,8 @@ from apps.store.models import Product
 
 class SliderSerializer(serializers.ModelSerializer):
     def get_image(self, obj: HomepageSlider):
-        return obj.image.url
+        request = self.context.get('request')
+        return str(request.build_absolute_uri(obj.image.url))
 
     class Meta:
         model = HomepageSlider
@@ -31,7 +32,9 @@ class ProductFloorSerializer(serializers.ModelSerializer):
                     .prefetch_related("additionalinformation_set")
                     .prefetch_related("rating_set")
                     .filter(id__in=obj.products.all()))
-        serializer = ProductSerializer(products, many=True)
+
+        request = self.context.get('request')
+        serializer = ProductSerializer(products, many=True,context={'request': request})
         return serializer.data
 
     def get_countdown_enabled(self, obj: HomepageProductFloor):
@@ -60,7 +63,8 @@ class PageSerializer(serializers.ModelSerializer):
                     .prefetch_related("additionalinformation_set")
                     .prefetch_related("rating_set")
                     .filter(id__in=obj.featured_products.all()))
-        serializer = ProductSerializer(products, many=True)
+        request = self.context.get('request')
+        serializer = ProductSerializer(products, many=True, context={'request': request})
         return serializer.data
 
     def get_banner(self, obj: Page):

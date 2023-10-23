@@ -5,14 +5,16 @@ from .models import Category, Product, ProductImage, Rating, AdditionalInformati
 class CategorySerializer(serializers.ModelSerializer):
     products = serializers.SerializerMethodField()
     def get_banner(self, obj: Category):
-        return obj.banner.url
+        request = self.context.get('request')
+        return str(request.build_absolute_uri(obj.banner.url))
 
     def get_icon(self, obj: Category):
         return obj.icon.url
 
     def get_products(self, obj: Category):
         products = obj.product_set.all()
-        serializer = ProductSerializer(products, many=True)
+        request = self.context.get('request')
+        serializer = ProductSerializer(products, many=True, context={"request": request})
         return serializer.data
 
     class Meta:
@@ -22,7 +24,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ProductImagesSerializer(serializers.ModelSerializer):
     def get_image(self, obj: ProductImage):
-        return obj.image.url
+        request = self.context.get('request')
+        return str(request.build_absolute_uri(obj.image.url))
 
     class Meta:
         model = ProductImage
@@ -63,7 +66,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_carousel(self, obj: Product):
         image_objects = obj.productimage_set.all()
-        return [obj.image.url for obj in image_objects]
+        request = self.context.get('request')
+        return [str(request.build_absolute_uri(obj.image.url)) for obj in image_objects]
 
     def get_ratings(self, obj: Product):
         ratings = obj.rating_set.all()

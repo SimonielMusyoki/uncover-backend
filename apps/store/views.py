@@ -1,6 +1,7 @@
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import status
 
 from .models import Category, Product
 from .renderers import CategoryJSONRenderer, ProductsJSONRenderer, ProductJSONRenderer
@@ -15,8 +16,8 @@ class ProductList(APIView):
                     .prefetch_related("additionalinformation_set")
                     .prefetch_related("rating_set")
                     .all())
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
+        serializer = ProductSerializer(products, many=True, context={'request': request})
+        return Response({"status": status.HTTP_200_OK, "data":serializer.data})
 
 class ProductDetailView(APIView):
     def get_object(self, slug):
@@ -32,8 +33,8 @@ class ProductDetailView(APIView):
 
     def get(self, request, slug, format=None):
         product = self.get_object(slug)
-        serializer = ProductSerializer(product)
-        return Response(serializer.data)
+        serializer = ProductSerializer(product,many=False, context={'request': request})
+        return Response({"status": status.HTTP_200_OK, "data":serializer.data})
 
 
 class CategoryDetail(APIView):
@@ -48,5 +49,5 @@ class CategoryDetail(APIView):
 
     def get(self, request, slug, format=None):
         category = self.get_object(slug)
-        serializer = CategorySerializer(category)
+        serializer = CategorySerializer(category, many=False, context={'request': request})
         return Response(serializer.data)

@@ -4,7 +4,7 @@ from .models import Category, Product, ProductImage, AdditionalInformation, Rati
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug', 'icon','parent_category', 'active']
+    list_display = ['id','name', 'slug', 'icon','parent_category', 'active']
     prepopulated_fields = {"slug": ("name",)}
     list_per_page = 20
     search_fields = ["name"]

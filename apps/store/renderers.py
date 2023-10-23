@@ -37,5 +37,5 @@ class CategoryJSONRenderer(JSONRenderer):
             return super(CategoryJSONRenderer, self).render(data)
         return json.dumps({
             "status": status_code,
-            "category": data
+            "data": data
         })

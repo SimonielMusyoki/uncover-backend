@@ -28,7 +28,7 @@ def upload_page_image_path(instance, filename):
 class HomepageSlider(models.Model):
     name = models.CharField(verbose_name=_("Image Name"), max_length=10)
     image = models.ImageField(upload_to=upload_image_path, verbose_name=_("Image"))
-    landing_page = models.URLField(verbose_name=_("URL"))
+    landing_page = models.CharField(verbose_name=_("URL"), max_length=255)
     active = models.BooleanField(default=True, verbose_name=_("Active Status"))
 
     class Meta:
@@ -48,8 +48,8 @@ class Page(models.Model):
 
 
 class FlyoutMenuItem(models.Model):
-    label = models.CharField(max_length=15)
-    landing_page = models.URLField()
+    label = models.CharField(verbose_name=_("URL"), max_length=255)
+    landing_page = models.CharField(verbose_name=_("URL"), max_length=255)
 
     def __str__(self):
         return f'{self.label}'
