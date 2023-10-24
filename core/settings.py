@@ -17,8 +17,7 @@ SECRET_KEY = 'django-insecure-(hptd!)t@_7l-=f%(**&8m3rju-gpj3kzozt%l##xxjo-sh$4t
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',
+    '*',
 ]
 
 
@@ -140,10 +139,20 @@ MEDIA_ROOT = str(BASE_DIR / "mediafiles")
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost",
-    "http://127.0.0.1",
-    "http://0.0.0.0",
     "http://localhost:8000",
+    "http://localhost:4200",
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:4200",
+    "http://0.0.0.0:800",
+    "http://0.0.0.0:4200",
+]
+CORS_TRUSTED_ORIGINS = [
+    "http://localhost:8000",
+    "http://localhost:4200",
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:4200",
+    "http://0.0.0.0:800",
+    "http://0.0.0.0:4200",
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
