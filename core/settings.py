@@ -16,12 +16,7 @@ SECRET_KEY = 'django-insecure-(hptd!)t@_7l-=f%(**&8m3rju-gpj3kzozt%l##xxjo-sh$4t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '16.171.1.141',
-    "localhost",
-    "127.0.0.1",
-    "0.0.0.0",
-]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -141,26 +136,8 @@ MEDIA_ROOT = str(BASE_DIR / "mediafiles")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-CORS_ALLOWED_ORIGINS = [
-    'http://16.171.1.141:8000',
-    'http://16.171.1.141:4200',
-    "http://localhost:8000",
-    "http://localhost:4200",
-    "http://127.0.0.1:8000",
-    "http://127.0.0.1:4200",
-    "http://0.0.0.0:800",
-    "http://0.0.0.0:4200",
-]
-CORS_TRUSTED_ORIGINS = [
-'http://16.171.1.141:8000',
-    'http://16.171.1.141:4200',
-    "http://localhost:8000",
-    "http://localhost:4200",
-    "http://127.0.0.1:8000",
-    "http://127.0.0.1:4200",
-    "http://0.0.0.0:800",
-    "http://0.0.0.0:4200",
-]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "accounts.User"
